@@ -57,10 +57,10 @@ class Category:
 
     def add_product(self, new_product: Product):
         self.__products.append(new_product)
-        self.product_count += 1
+        Category.product_count += 1
 
     @property
-    def products_list(self):
+    def products(self):
         products_str = ""
         for product in self.__products:
             products_str += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n"

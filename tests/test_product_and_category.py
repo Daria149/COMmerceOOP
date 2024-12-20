@@ -1,5 +1,4 @@
 from unittest.mock import patch
-
 import pytest
 
 from src.product_and_category import Category, Product
