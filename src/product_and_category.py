@@ -1,4 +1,3 @@
-
 class Product:
     """Класс, определяющий характеристики продукта."""
 
@@ -6,13 +5,22 @@ class Product:
     description: str
     price: float
     quantity: float
+    all_products_price: float
 
-    def __init__(self, name, description, price, quantity):
+    def __init__(self, name, description, price, quantity, all_products_price=0):
         """Метод для инициализации класса Product."""
         self.name = name
         self.description = description
         self.__price = price
         self.quantity = quantity
+        self.all_products_price = all_products_price
+
+    def __str__(self):
+        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other):
+        all_products_price = self.__price * self.quantity + other.__price * other.quantity
+        return all_products_price
 
     @classmethod
     def new_product(cls, parameters: dict):
@@ -55,6 +63,12 @@ class Category:
         self.category_count += 1
         self.product_count += len(products) if products else 0
 
+    def __str__(self):
+        total_products_quantity = 0
+        for product in self.__products:
+            total_products_quantity += product.quantity
+        return f"{self.name}, количество продуктов: {total_products_quantity} шт."
+
     def add_product(self, new_product: Product):
         self.__products.append(new_product)
         Category.product_count += 1
@@ -63,7 +77,7 @@ class Category:
     def products(self):
         products_str = ""
         for product in self.__products:
-            products_str += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n"
+            products_str += f"{str(product)}\n"
         return products_str
 
     @property
