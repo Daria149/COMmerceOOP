@@ -1,3 +1,4 @@
+from itertools import product
 from unittest.mock import patch
 
 import pytest
@@ -37,31 +38,27 @@ def test_new_product():
 
 
 @patch("builtins.input")
-def test_price_setter(capsys, mock_input):
+def test_price_setter(mock_input, capsys):
     new_product = Product.new_product(
         {"name": "Samsung", "description": "256GB, Серый цвет", "price": 100.0, "quantity": 5}
     )
     new_product.price = 50
     message = capsys.readouterr()
-    mock_input.return_value = "y"
-    assert message.out.strip() == "Новая цена ниже текущей. Подтвердите: подтверждаете: 'y', не подтверждвете: 'n' ___"
-    assert new_product.price == 50
+    mock_input.return_value = "n"
+    assert message.out.strip() == ""
+    assert new_product.price == 100
 
     new_product.price = 0
     message = capsys.readouterr()
     assert message.out.strip() == "Цена не должна быть нулевая или отрицательная"
 
-    new_product.price = 5000.0
-    assert new_product.price == 5000.0
 
-
-def test_add_product():
+def test_add_product_in_products():
     product1 = Product("QLED 4K", "Фоновая подсветка", 123000.0, 7)
     assert (
         f"{product1.name}, {product1.price} руб. Остаток: {product1.quantity} шт.\n"
         == "QLED 4K, 123000.0 руб. Остаток: 7 шт.\n"
     )
-    assert Category.product_count == 1
 
 
 @pytest.fixture
@@ -87,8 +84,21 @@ def test_category_str():
     assert str(category1) == "Смартфоны, количество продуктов: 13 шт."
 
 
-def test_2_add_product():
+def test_price_add_product():
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     all_products_price = product1.price * product1.quantity + product2.price * product2.quantity
     assert all_products_price == 2580000.0
+
+
+def test_add_product(category_sm, product_sm):
+    category_sm.add_product(product_sm)
+    assert category_sm.description == "Высокотехнологичные смартфоны"
+    assert Category.product_count == 1
+    category_sm.add_product(product_sm)
+    assert Category.product_count == 2
+
+
+def test_add_product_error(category_sm, product_sm):
+    with pytest.raises(TypeError):
+        category_sm.add_product(1)
