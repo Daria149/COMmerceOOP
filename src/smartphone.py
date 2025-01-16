@@ -1,6 +1,5 @@
 from src.product_and_category import Product
 
-
 class Smartphone(Product):
     def __init__(self, name, description, price, quantity, efficiency, model, memory, color, all_products_price=0):
         super().__init__(name, description, price, quantity, all_products_price)

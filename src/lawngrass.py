@@ -1,6 +1,5 @@
 from src.product_and_category import Product
 
-
 class LawnGrass(Product):
     def __init__(self, name, description, price, quantity, country, germination_period, color, all_products_price=0):
         super().__init__(name, description, price, quantity, all_products_price)

@@ -1,4 +1,3 @@
-from itertools import product
 from unittest.mock import patch
 
 import pytest
@@ -45,7 +44,7 @@ def test_price_setter(mock_input, capsys):
     new_product.price = 50
     message = capsys.readouterr()
     mock_input.return_value = "n"
-    assert message.out.strip() == ""
+    assert message.out.strip().split("\n")[0] == "Product(Samsung, 256GB, Серый цвет, 100.0, 5)"
     assert new_product.price == 100
 
     new_product.price = 0
