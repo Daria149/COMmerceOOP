@@ -16,7 +16,6 @@ class Product(BaseProduct, PrintMixin):
         self.name = name
         self.description = description
         self.__price = price
-        self.quantity = quantity
         self.all_products_price = all_products_price
         super().__init__()
 
