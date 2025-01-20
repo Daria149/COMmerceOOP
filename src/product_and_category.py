@@ -1,4 +1,5 @@
 from src.baseproduct import BaseProduct
+from src.exceptions import ZeroQuantityProduct
 from src.printmixin import PrintMixin
 
 
@@ -16,7 +17,10 @@ class Product(BaseProduct, PrintMixin):
         self.name = name
         self.description = description
         self.__price = price
-        self.quantity = quantity
+        if quantity > 0:
+            self.quantity = quantity
+        else:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
         self.all_products_price = all_products_price
         super().__init__()
 
@@ -78,8 +82,17 @@ class Category:
 
     def add_product(self, new_product: Product):
         if isinstance(new_product, Product):
-            self.__products.append(new_product)
-            Category.product_count += 1
+            try:
+                if new_product.quantity == 0:
+                    raise ZeroQuantityProduct("Нельзя добавить товар с нулевым количеством.")
+            except ZeroDivisionError as e:
+                print(str(e))
+            else:
+                self.__products.append(new_product)
+                Category.product_count += 1
+                print("Товар добавлен.")
+            finally:
+                print("Обработка добавления товара завершена.")
         else:
             raise TypeError
 
@@ -93,3 +106,9 @@ class Category:
     @property
     def productss(self):
         return self.__products
+
+    def middle_price(self):
+        try:
+            return sum([product.price for product in self.__products]) / len(self.__products)
+        except ZeroDivisionError:
+            return 0

@@ -3,6 +3,7 @@ from unittest.mock import patch
 import pytest
 
 from src.product_and_category import Category, Product
+from src.smartphone import Smartphone
 
 
 @pytest.fixture
@@ -101,3 +102,30 @@ def test_add_product(category_sm, product_sm):
 def test_add_product_error(category_sm, product_sm):
     with pytest.raises(TypeError):
         category_sm.add_product(1)
+
+
+def test_middle_price(for_test_middle_price):
+    assert for_test_middle_price.middle_price() == 16500.0
+
+
+def test2_middle_price(for_test_middle_price_without_product):
+    assert for_test_middle_price_without_product.middle_price() == 0
+
+
+def test_zeroquantity(capsys, category_sm):
+    assert len(category_sm.productss) == 2
+    with pytest.raises(ValueError):
+        add_product = Smartphone("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 0, 90.3, "Note 11", 1024, "Синий")
+        category_sm.productss = add_product
+        message = capsys.readouterr()
+        assert message.out.strip() == "Товар с нулевым количеством не может быть добавлен"
+
+
+# def test_zeroquantity(capsys, category_sm):
+#     assert len(category_sm.productss) == 2
+#
+#     add_product = Smartphone("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 0, 90.3, "Note 11", 1024, "Синий")
+#     category_sm.productss = add_product
+#     message = capsys.readouterr()
+#     assert message.out.strip().split("\n") == "Товар добавлен."
+#     assert message.out.strip().split("\n")[-2] == "Нельзя добавить товар с нулевым количеством."

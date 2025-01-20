@@ -1,5 +1,6 @@
 import pytest
 
+
 def test_lawngrass1_init(lawngrass1):
     assert lawngrass1.name == "Газонная трава"
     assert lawngrass1.description == "Элитная трава для газона"

@@ -1,4 +1,5 @@
 import pytest
+
 from src.lawngrass import LawnGrass
 from src.product_and_category import Category, Product
 from src.smartphone import Smartphone
@@ -36,3 +37,20 @@ def lawngrass1():
 @pytest.fixture
 def lawngrass2():
     return LawnGrass("Газонная трава 2", "Выносливая трава", 450.0, 15, "США", "5 дней", "Темно-зеленый")
+
+
+@pytest.fixture
+def for_test_middle_price():
+    return Category(
+        "Смартфоны",
+        "Высокотехнологичные смартфоны",
+        [
+            (Smartphone("Samsung Galaxy S23 Ultra", "Серый цвет", 18000.0, 5, 95.5, "S23 Ultra", 256, "Серый")),
+            (Smartphone("Samsung Galaxy S23 Ultra", "200MP камера", 15000.0, 2, 95.5, "S23 Ultra", 256, "Серый")),
+        ],
+    )
+
+
+@pytest.fixture
+def for_test_middle_price_without_product():
+    return Category("cc", "hh", [])

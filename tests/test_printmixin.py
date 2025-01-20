@@ -2,7 +2,6 @@ from src.lawngrass import LawnGrass
 from src.product_and_category import Product
 from src.smartphone import Smartphone
 
-
 def test_printmixin(capsys):
     Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
     message = capsys.readouterr()
